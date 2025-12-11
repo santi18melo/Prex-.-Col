@@ -1,6 +1,7 @@
-import os
+import warnings
+warnings.filterwarnings("ignore", message=".*pkg_resources is deprecated.*", module="drf_yasg")
 from celery.schedules import crontab
-import sys
+import os
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv

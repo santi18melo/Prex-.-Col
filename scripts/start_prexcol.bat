@@ -219,16 +219,49 @@ echo.
 echo  [1] Ver Credenciales de Prueba (Usuarios Demo)
 echo  [2] Crear Nuevo Superusuario (Admin)
 echo  [3] Salir y dejar sistema corriendo
+echo  [4] Ingreso y accesos
+echo  [5] Reparar errores comunes (auto-reparación)
 echo.
 set "OPT="
-set /p "OPT=Seleccione una opcion (1-3): "
+set /p "OPT=Seleccione una opcion (1-5): "
 
 if "%OPT%"=="1" goto :SHOW_CREDS
 if "%OPT%"=="2" goto :CREATE_ADMIN
 if "%OPT%"=="3" goto :END_SCRIPT
+if "%OPT%"=="4" goto :INGRESO_ACCESOS
+if "%OPT%"=="5" goto :AUTO_REPAIR
 
 echo.
-echo %YELLOW%[!] Opcion no valida. Por favor seleccione 1, 2 o 3.%RESET%
+echo %YELLOW%[!] Opcion no valida. Por favor seleccione 1, 2, 3 o 4.%RESET%
+goto :OPTIONAL_CREDENTIALS
+
+:AUTO_REPAIR
+echo.
+echo %CYAN%==========================================%RESET%
+echo %CYAN%      REPARACIÓN AUTOMÁTICA%RESET%
+echo %CYAN%==========================================%RESET%
+echo.
+rem Re‑ejecutar los pasos críticos de inicialización
+call :STEP_2_VENV
+if %errorlevel% neq 0 (
+    echo %RED%[!] Error al reparar el entorno virtual.%RESET%
+    goto :OPTIONAL_CREDENTIALS
+)
+call :STEP_3_DEPS
+if %errorlevel% neq 0 (
+    echo %RED%[!] Error al reparar dependencias.%RESET%
+    goto :OPTIONAL_CREDENTIALS
+)
+call :STEP_4_MIGRATE
+if %errorlevel% neq 0 (
+    echo %RED%[!] Error al aplicar migraciones.%RESET%
+    goto :OPTIONAL_CREDENTIALS
+)
+echo %GREEN%[OK] Reparación completada. Los servicios se reiniciarán.%RESET%
+rem Reiniciar backend y frontend
+call :STEP_5_BACKEND
+call :STEP_6_CELERY
+call :STEP_7_FRONTEND
 goto :OPTIONAL_CREDENTIALS
 
 :SHOW_CREDS
@@ -247,7 +280,9 @@ echo  Customer (Cliente)  user@example.com        user123
 echo.
 echo  %CYAN%URLs de Acceso:%RESET%
 echo  - Panel Admin (Backend): http://localhost:8000/admin/
-echo  - Swagger API Docs:      http://localhost:8000/api/docs/
+echo  - Swagger UI (OpenAPI): http://localhost:8000/api/docs/swagger/
+echo  - Redoc UI: http://localhost:8000/api/docs/redoc/
+echo  - API Docs (Sphinx): http://localhost:8000/api/docs/
 echo.
 echo Presione cualquier tecla para VOLVER AL MENU...
 pause >nul
