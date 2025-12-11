@@ -6,11 +6,11 @@ echo PREXCOL - Quick Start Fixed Script
 echo ========================================
 
 :: ---- Paths ----
-SET BACKEND_DIR=%CD%\src\backend
-SET FRONTEND_DIR=%CD%\src\frontend
-SET LOGS_DIR=%CD%\logs
-SET VENV_DIR=%CD%\.venv\Scripts
-
+SET ROOT_DIR=%~dp0..
+SET BACKEND_DIR=%ROOT_DIR%\src\backend
+SET FRONTEND_DIR=%ROOT_DIR%\src\frontend
+SET LOGS_DIR=%ROOT_DIR%\logs
+SET VENV_DIR=%ROOT_DIR%\.venv\Scripts
 
 :: ---- Crear directorios de logs ----
 IF NOT EXIST "%LOGS_DIR%\backend" mkdir "%LOGS_DIR%\backend"
@@ -20,7 +20,7 @@ IF NOT EXIST "%LOGS_DIR%\frontend" mkdir "%LOGS_DIR%\frontend"
 echo [1/3] Starting Django Backend...
 IF EXIST "%VENV_DIR%\activate.bat" (
     call "%VENV_DIR%\activate.bat"
-    cd "%BACKEND_DIR%"
+    cd /d "%BACKEND_DIR%"
     start "Django Backend" cmd /k "python manage.py runserver > \"%LOGS_DIR%\backend\backend.log\" 2>&1"
 ) ELSE (
     echo ERROR: No se encuentra el entorno virtual en %VENV_DIR%
@@ -29,7 +29,7 @@ IF EXIST "%VENV_DIR%\activate.bat" (
 :: ---- Arrancar Frontend ----
 echo [2/3] Starting React Frontend...
 IF EXIST "%FRONTEND_DIR%\package.json" (
-    cd "%FRONTEND_DIR%"
+    cd /d "%FRONTEND_DIR%"
     npm install
     start "React Frontend" cmd /k "npm run dev > \"%LOGS_DIR%\frontend\frontend.log\" 2>&1"
 ) ELSE (
@@ -38,7 +38,7 @@ IF EXIST "%FRONTEND_DIR%\package.json" (
 
 :: ---- Abrir navegador ----
 timeout /t 5
-start http://localhost:5173/
+start http://localhost:5175/
 
 echo ========================================
 echo PREXCOL Quick Start Fixed Script ejecutado

@@ -10,8 +10,14 @@ echo PREXCOL - Simple Start
 echo ========================================
 echo.
 
+SET ROOT_DIR=%~dp0..
+SET BACKEND_DIR=%ROOT_DIR%\src\backend
+SET FRONTEND_DIR=%ROOT_DIR%\src\frontend
+SET LOGS_DIR=%ROOT_DIR%\logs
+SET VENV_DIR=%ROOT_DIR%\.venv
+
 REM Check if .venv exists
-if not exist ".venv" (
+if not exist "%VENV_DIR%" (
     echo [ERROR] Virtual environment not found.
     echo Please run setup_backend.bat first.
     pause
@@ -19,39 +25,42 @@ if not exist ".venv" (
 )
 
 REM Create logs directories
-if not exist "logs" mkdir logs
-if not exist "logs\backend" mkdir logs\backend
-if not exist "logs\frontend" mkdir logs\frontend
+if not exist "%LOGS_DIR%" mkdir "%LOGS_DIR%"
+if not exist "%LOGS_DIR%\backend" mkdir "%LOGS_DIR%\backend"
+if not exist "%LOGS_DIR%\frontend" mkdir "%LOGS_DIR%\frontend"
 
 echo [1/4] Activating Virtual Environment...
-call .venv\Scripts\activate.bat
+call "%VENV_DIR%\Scripts\activate.bat"
 echo.
 
 echo [2/4] Installing/Updating Dependencies...
-pip install -r requirements.txt --quiet
+pip install -r "%ROOT_DIR%\requirements.txt" --quiet
 echo.
 
 echo [3/4] Running Database Migrations...
-cd backend
+cd /d "%BACKEND_DIR%"
 python manage.py migrate
-cd ..
+if %errorlevel% neq 0 (
+    echo [WARNING] Migrations failed. Continuing anyway...
+)
+cd /d "%~dp0"
 echo.
 
 echo [4/4] Starting Services...
 echo.
 echo Starting Django Backend on http://localhost:8000
-start "PREXCOL Backend" cmd /k "call .venv\Scripts\activate.bat && cd backend && python manage.py runserver"
+start "PREXCOL Backend" cmd /k "call "%VENV_DIR%\Scripts\activate.bat" && cd /d "%BACKEND_DIR%" && python manage.py runserver"
 timeout /t 3 /nobreak >nul
 echo.
 
 echo Starting React Frontend on http://localhost:5175
-cd frontend
+cd /d "%FRONTEND_DIR%"
 if not exist "node_modules" (
     echo Installing frontend dependencies (this may take a while)...
     call npm install
 )
 start "PREXCOL Frontend" cmd /k "npm run dev"
-cd ..
+cd /d "%~dp0"
 echo.
 
 echo Waiting for services to start...
