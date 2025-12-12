@@ -1,93 +1,141 @@
+"""
+Script para crear usuarios de prueba de todos los roles
+"""
 import os
 import sys
 import django
 
-# Setup Django
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(current_dir)
+sys.path.insert(0, os.path.abspath('.'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
 django.setup()
 
 from apps.usuarios.models import Usuario
+from apps.productos.models import Tienda
 
-if __name__ == "__main__":
-    # Create test users
-    test_users = [
-        {
-            'email': 'admin1@example.com',
-            'nombre': 'Admin Uno',
-            'password': 'admin123',
-            'rol': 'admin'
-        },
-        {
-            'email': 'cliente1@example.com',
-            'nombre': 'Cliente Uno',
-            'password': 'cliente123',
-            'rol': 'cliente'
-        },
-        {
-            'email': 'proveedor1@example.com',
-            'nombre': 'Proveedor Uno',
-            'password': 'proveedor123',
-            'rol': 'proveedor'
-        },
-        {
-            'email': 'logistica1@example.com',
-            'nombre': 'Logistica Uno',
-            'password': 'logistica123',
-            'rol': 'logistica'
-        }
-    ]
+print("=" * 80)
+print("CREANDO USUARIOS DE PRUEBA PARA TODOS LOS ROLES")
+print("=" * 80)
 
-    for user_data in test_users:
-        try:
-            if user_data['rol'] == 'admin':
-                 # Check if exists to avoid error or duplicate logic handled below, 
-                 # but create_superuser is specific so let's try create_superuser
-                 if not Usuario.objects.filter(email=user_data['email']).exists():
-                     user = Usuario.objects.create_superuser(
-                        email=user_data['email'],
-                        nombre=user_data['nombre'],
-                        password=user_data['password']
-                     )
-                     print(f"✅ Superusuario creado: {user.email}")
-                 else:
-                     print(f"⚠️ Usuario ya existe: {user_data['email']}")
-                     # Update if needed? Admin usually stays admin.
-                     user = Usuario.objects.get(email=user_data['email'])
-                     # Ensure is admin
-                     if user.rol != 'admin':
-                         user.rol = 'admin'
-                         user.is_superuser = True
-                         user.is_staff = True
-                         user.save()
-                         print(f"✅ Rol actualizado a admin: {user.email}")
-            else:
-                user = Usuario.objects.create_user(
-                    email=user_data['email'],
-                    nombre=user_data['nombre'],
-                    password=user_data['password'],
-                    rol=user_data['rol']
-                )
-                print(f"✅ Usuario creado: {user.email} (Rol: {user.rol})")
-        except Exception as e:
-            if 'UNIQUE constraint' in str(e) or 'already exists' in str(e):
-                print(f"⚠️ Usuario ya existe: {user_data['email']}")
-                try:
-                    user = Usuario.objects.get(email=user_data['email'])
-                    user.set_password(user_data['password'])
-                    user.rol = user_data['rol']
-                    if user.rol == 'admin':
-                        user.is_staff = True
-                        user.is_superuser = True
-                    user.save()
-                    print(f"✅ Datos actualizados: {user.email}")
-                except Exception as update_error:
-                     print(f"❌ Error actualizando {user_data['email']}: {update_error}")
-            else:
-                print(f"❌ Error creando {user_data['email']}: {e}")
+# Datos de usuarios por rol
+usuarios_data = [
+    {
+        'email': 'admin@example.com',
+        'password': 'admin123',
+        'nombre': 'Administrador Principal',
+        'rol': 'admin',
+        'is_staff': True,
+        'is_superuser': True
+    },
+    {
+        'email': 'cliente@example.com',
+        'password': 'cliente123',
+        'nombre': 'Juan Cliente',
+        'rol': 'cliente',
+        'direccion': 'Calle 123 #45-67, Bogotá',
+        'telefono': '+57 300 123 4567'
+    },
+    {
+        'email': 'proveedor@example.com',
+        'password': 'proveedor123',
+        'nombre': 'María Proveedora',
+        'rol': 'proveedor',
+        'direccion': 'Carrera 45 #12-34, Medellín',
+        'telefono': '+57 301 234 5678'
+    },
+    {
+        'email': 'logistica@example.com',
+        'password': 'logistica123',
+        'nombre': 'Carlos Logística',
+        'rol': 'logistica',
+        'direccion': 'Avenida 68 #23-45, Cali',
+        'telefono': '+57 302 345 6789'
+    },
+    {
+        'email': 'vendedor@example.com',
+        'password': 'vendedor123',
+        'nombre': 'Ana Vendedora',
+        'rol': 'vendedor',
+        'direccion': 'Diagonal 34 #56-78, Barranquilla',
+        'telefono': '+57 303 456 7890'
+    }
+]
 
-    print("\n📊 Resumen de usuarios:")
-    for rol in ['admin', 'cliente', 'proveedor', 'logistica']:
-        count = Usuario.objects.filter(rol=rol).count()
-        print(f"  {rol.capitalize()}: {count}")
+print("\n📝 Creando usuarios...")
+print("-" * 80)
+
+for user_data in usuarios_data:
+    email = user_data['email']
+    
+    # Verificar si el usuario ya existe
+    if Usuario.objects.filter(email=email).exists():
+        user = Usuario.objects.get(email=email)
+        print(f"ℹ️  Usuario ya existe: {user.nombre} ({user.email}) - Rol: {user.rol}")
+    else:
+        # Crear nuevo usuario
+        password = user_data.pop('password')
+        user = Usuario.objects.create_user(**user_data)
+        user.set_password(password)
+        user.save()
+        print(f"✅ Usuario creado: {user.nombre} ({user.email}) - Rol: {user.rol}")
+
+print("\n" + "=" * 80)
+print("CREDENCIALES DE ACCESO")
+print("=" * 80)
+
+print("""
+🔐 ADMIN (Acceso total al sistema)
+   Email: admin@example.com
+   Password: admin123
+   Dashboard: /dashboard-admin
+   
+👤 CLIENTE (Compras y pedidos)
+   Email: cliente@example.com
+   Password: cliente123
+   Dashboard: /dashboard-cliente
+   
+🏭 PROVEEDOR (Gestión de productos)
+   Email: proveedor@example.com
+   Password: proveedor123
+   Dashboard: /dashboard-proveedor
+   
+🚚 LOGÍSTICA (Gestión de entregas)
+   Email: logistica@example.com
+   Password: logistica123
+   Dashboard: /dashboard-logistica
+   
+💼 VENDEDOR (Ventas)
+   Email: vendedor@example.com
+   Password: vendedor123
+   Dashboard: /dashboard-vendedor
+""")
+
+print("=" * 80)
+print("RESUMEN")
+print("=" * 80)
+
+total_usuarios = Usuario.objects.count()
+print(f"\n✅ Total de usuarios en el sistema: {total_usuarios}")
+
+for rol in ['admin', 'cliente', 'proveedor', 'logistica', 'vendedor']:
+    count = Usuario.objects.filter(rol=rol).count()
+    print(f"   - {rol.capitalize()}: {count}")
+
+print("\n" + "=" * 80)
+print("✨ Usuarios de prueba listos para usar")
+print("=" * 80)
+
+# Crear tienda de ejemplo si no existe (para proveedores)
+print("\n📦 Verificando tiendas...")
+if not Tienda.objects.exists():
+    admin_user = Usuario.objects.filter(rol='admin').first()
+    if admin_user:
+        tienda = Tienda.objects.create(
+            nombre='Tienda Principal',
+            direccion='Calle Principal #123',
+            administrador=admin_user
+        )
+        print(f"✅ Tienda creada: {tienda.nombre}")
+else:
+    print(f"ℹ️  Ya existen {Tienda.objects.count()} tienda(s) en el sistema")
+
+print("\n✅ ¡Listo! Puedes iniciar sesión con cualquiera de estos usuarios.")

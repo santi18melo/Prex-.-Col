@@ -77,8 +77,8 @@ copy .env.example .env
 # 5. Ejecutar migraciones
 python manage.py migrate
 
-# 6. Crear superusuario (opcional)
-python manage.py createsuperuser
+# 6. Crear usuarios de prueba (recomendado)
+python create_test_users.py
 
 # 7. Iniciar servidor
 python manage.py runserver
@@ -110,19 +110,36 @@ Una vez iniciados ambos servidores:
 
 ### Credenciales de Prueba
 
+Usuarios disponibles para probar todos los dashboards:
+
 ```
-Admin:
+👨‍💼 Admin (Acceso total):
 Email: admin@example.com
 Password: admin123
+Dashboard: /dashboard-admin
 
-Cliente:
+👤 Cliente (Compras):
 Email: cliente@example.com
 Password: cliente123
+Dashboard: /dashboard-cliente
 
-Proveedor:
+🏭 Proveedor (Productos):
 Email: proveedor@example.com
 Password: proveedor123
+Dashboard: /dashboard-proveedor
+
+🚚 Logística (Entregas):
+Email: logistica@example.com
+Password: logistica123
+Dashboard: /dashboard-logistica
+
+💼 Vendedor (Ventas):
+Email: vendedor@example.com
+Password: vendedor123
+Dashboard: /dashboard-vendedor
 ```
+
+📋 **Ver detalles completos:** [CREDENCIALES_USUARIOS_PRUEBA.md](docs/CREDENCIALES_USUARIOS_PRUEBA.md)
 
 ---
 
