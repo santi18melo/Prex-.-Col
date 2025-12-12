@@ -56,10 +56,11 @@ class Producto(models.Model):
     es_basico = models.BooleanField(
         default=True, help_text="¿Es un producto de necesidad básica?"
     )
-    categoria = models.CharField(
-        max_length=50,
-        default="general",
-        help_text="Categoría del producto (por ejemplo: alimentos, bebidas, aseo, dulces, ferretería, etc.)",
+    categoria = models.ForeignKey(
+        'categorias.Categoria',
+        on_delete=models.PROTECT,
+        related_name="productos",
+        help_text="Categoría del producto"
     )
 
     # Nuevos campos solicitados

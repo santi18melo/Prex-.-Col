@@ -395,6 +395,60 @@ export default function ModalEdicion({
             </>
           )}
 
+          {/* FORMULARIO CATEGORIA */}
+          {tipo === 'Categoria' && (
+            <>
+              <div className="form-group">
+                <label>Nombre *</label>
+                <input
+                  type="text"
+                  name="nombre"
+                  value={formData.nombre || ''}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Descripción</label>
+                <textarea
+                  name="descripcion"
+                  value={formData.descripcion || ''}
+                  onChange={handleChange}
+                  rows="3"
+                />
+              </div>
+
+              <div className="form-group">
+                  <label>Imagen</label>
+                  {formData.imagen && typeof formData.imagen === 'string' && (
+                      <div style={{ marginBottom: '10px' }}>
+                          <img src={formData.imagen} alt="Actual" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '8px' }} />
+                      </div>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="imagen"
+                    onChange={(e) => setFormData(prev => ({ ...prev, imagen: e.target.files[0] }))}
+                    style={{ padding: '8px', width: '100%', border: '2px solid #e2e8f0', borderRadius: '8px' }}
+                  />
+              </div>
+
+              <div className="form-group checkbox-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="activa"
+                    checked={formData.activa !== undefined ? formData.activa : true}
+                    onChange={handleChange}
+                  />
+                  Categoría Activa
+                </label>
+              </div>
+            </>
+          )}
+
           <div className="modal-actions">
             <button type="button" className="btn-cancel" onClick={onClose}>
               Cancelar

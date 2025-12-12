@@ -8,13 +8,16 @@ import AdminOrdersTab from "../components/admin/tabs/AdminOrdersTab";
 import UserService from "../services/userService";
 import productosService from "../services/productosService";
 import SimpleChart from "../components/admin/SimpleChart";
+import AdminCategoriesTab from "../components/admin/tabs/AdminCategoriesTab";
 import LiveMetricsModal from "../components/admin/LiveMetricsModal";
 import "../styles/dashboardAdmin.css";
+import CategoryService from "../services/categoryService";
 
 const tabs = [
   { id: "users", label: "Usuarios", Component: AdminUsersTab },
   { id: "stores", label: "Tiendas", Component: AdminStoresTab },
   { id: "products", label: "Productos", Component: AdminProductsTab },
+  { id: "categories", label: "Categorías", Component: AdminCategoriesTab },
   { id: "orders", label: "Pedidos", Component: AdminOrdersTab },
 ];
 
@@ -27,11 +30,12 @@ export default function DashboardAdmin() {
   const [stores, setStores] = useState([]);
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Stats State
-  const [stats, setStats] = useState({ users: 0, stores: 0, products: 0, orders: 0 });
+  const [stats, setStats] = useState({ users: 0, stores: 0, products: 0, orders: 0, categories: 0 });
 
   // Fetch Data per Tab
   const fetchData = useCallback(async () => {
@@ -44,14 +48,19 @@ export default function DashboardAdmin() {
              const t = await productosService.getTiendas();
              setStores(t || []);
         } else if (activeTab === 'products') {
-             const [p, t, prov] = await Promise.all([
+             const [p, t, prov, c] = await Promise.all([
                  productosService.getProductos(),
                  productosService.getTiendas(),
-                 UserService.getProveedores()
+                 UserService.getProveedores(),
+                 CategoryService.getAll()
              ]);
              setProducts(p || []);
              setStores(t || []);
              setProviders(prov || []);
+             setCategories(c || []);
+        } else if (activeTab === 'categories') {
+             const c = await CategoryService.getAll();
+             setCategories(c || []);
         } else if (activeTab === 'orders') {
              const o = await productosService.getPedidos();
              setOrders(o || []);
@@ -71,17 +80,19 @@ export default function DashboardAdmin() {
   useEffect(() => {
     const loadStats = async () => {
         try {
-            const [u, s, p, o] = await Promise.all([
+            const [u, s, p, o, c] = await Promise.all([
                 UserService.getAllUsers(),
                 productosService.getTiendas(),
                 productosService.getProductos(),
-                productosService.getPedidos()
+                productosService.getPedidos(),
+                CategoryService.getAll()
             ]);
             setStats({
                 users: u?.length || 0,
                 stores: s?.length || 0,
                 products: p?.length || 0,
-                orders: o?.length || 0
+                orders: o?.length || 0,
+                categories: c?.length || 0
             });
         } catch (e) {
             console.error("Error loading stats:", e);
@@ -147,6 +158,7 @@ export default function DashboardAdmin() {
                   loading,
                   tiendas: stores,
                   proveedores: providers,
+                  categorias: categories,
                   onCreate: async (d) => { await productosService.crearProducto(d); fetchData(); },
                   onUpdate: async (d) => { await productosService.actualizarProducto(d.id, d); fetchData(); },
                   onDelete: async (id) => { await productosService.eliminarProducto(id); fetchData(); }
@@ -156,6 +168,14 @@ export default function DashboardAdmin() {
                   pedidos: orders, 
                   loading,
                   onUpdate: async (d) => { await productosService.cambiarEstadoPedido(d.id, d.estado); fetchData(); }
+              };
+          case 'categories':
+              return {
+                  categorias: categories,
+                  loading,
+                  onCreate: async (d) => { await CategoryService.create(d); fetchData(); },
+                  onUpdate: async (d) => { await CategoryService.update(d.id, d); fetchData(); },
+                  onDelete: async (id) => { await CategoryService.delete(id); fetchData(); }
               };
           default:
               return {};

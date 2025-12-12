@@ -1,17 +1,19 @@
-// frontend/src/components/ModalDetallePedido.jsx
 import React, { useEffect, useState } from 'react';
 import { getDetallesPedido } from '../services/productosService';
-import '../styles/ModalEdicion.css'; // Reusing modal styles
+import InvoiceService from '../services/invoiceService';
+import '../styles/ModalEdicion.css';
 
 export default function ModalDetallePedido({ pedido, onClose, showStatusChange = false, onStatusChange }) {
   const [detalles, setDetalles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [currentStatus, setCurrentStatus] = useState(pedido?.estado);
+  const [invoice, setInvoice] = useState(null);
 
   useEffect(() => {
     if (pedido) {
       cargarDetalles();
+      cargarFactura();
       setCurrentStatus(pedido.estado);
     }
   }, [pedido]);
@@ -29,11 +31,29 @@ export default function ModalDetallePedido({ pedido, onClose, showStatusChange =
     }
   };
 
+  const cargarFactura = async () => {
+      try {
+          const fact = await InvoiceService.getByOrderId(pedido.id);
+          setInvoice(fact);
+      } catch (e) {
+          // Silent error or log
+          console.log("Invoice info not available or error:", e);
+      }
+  };
+
   const handleStatusChange = (e) => {
       const newStatus = e.target.value;
       setCurrentStatus(newStatus);
       if (onStatusChange) {
           onStatusChange(pedido.id, newStatus);
+      }
+  };
+
+  const handleDownloadInvoice = () => {
+      if (invoice && invoice.archivo_pdf) {
+          window.open(invoice.archivo_pdf, '_blank');
+      } else {
+          alert("El PDF de la factura aún no está generado.");
       }
   };
 
@@ -112,7 +132,16 @@ export default function ModalDetallePedido({ pedido, onClose, showStatusChange =
           )}
         </div>
 
-        <div className="modal-actions">
+        <div className="modal-actions" style={{ justifyContent: 'space-between', marginTop: '20px' }}>
+          <div>
+              {invoice ? (
+                  <button className="btn-primary" onClick={handleDownloadInvoice} style={{ background: '#48bb78', borderColor: '#48bb78', padding: '8px 16px' }}>
+                      📄 Ver Factura ({invoice.numero_factura})
+                  </button>
+              ) : (
+                  <span style={{ color: '#718096', fontStyle: 'italic', fontSize: '0.9rem' }}>Factura no disponible</span>
+              )}
+          </div>
           <button className="btn-cancel" onClick={onClose}>
             Cerrar
           </button>

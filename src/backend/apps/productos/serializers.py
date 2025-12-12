@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Tienda, Producto, Pedido, DetallePedido, Seccion
 from apps.usuarios.serializers import UsuarioSerializer
 from apps.usuarios.models import Usuario
+from apps.categorias.models import Categoria
 
 
 class TiendaSerializer(serializers.ModelSerializer):
@@ -34,6 +35,12 @@ class ProductoSerializer(serializers.ModelSerializer):
     )
     secciones_nombres = serializers.StringRelatedField(source='secciones', many=True, read_only=True)
     
+    # Compatibilidad: Mostrar nombre de categoría en lugar de ID
+    categoria = serializers.SlugRelatedField(
+        queryset=Categoria.objects.all(),
+        slug_field='nombre'
+    )
+
     class Meta:
         model = Producto
         fields = '__all__'
@@ -43,6 +50,10 @@ class ProductoListSerializer(serializers.ModelSerializer):
     """Simplified serializer for product listings"""
     tienda_nombre = serializers.ReadOnlyField(source='tienda.nombre')
     proveedor_nombre = serializers.ReadOnlyField(source='proveedor.nombre')
+    categoria = serializers.SlugRelatedField(
+        queryset=Categoria.objects.all(),
+        slug_field='nombre'
+    )
     
     class Meta:
         model = Producto

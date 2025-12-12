@@ -53,13 +53,15 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
     "django_filters",
-    # "drf_yasg",
+    "drf_yasg",
     # Internal apps
     "apps.usuarios",
     "apps.productos",
     "apps.ventas",
     "apps.pagos",
     "apps.notificaciones",
+    "apps.categorias",
+    "apps.detalles_pedido",
 ]
 
 AUTH_USER_MODEL = "usuarios.Usuario"

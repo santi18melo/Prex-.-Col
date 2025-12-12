@@ -6,6 +6,7 @@ import GlobalFloatingGuide from "../components/GlobalFloatingGuide";
 import ProtectedRoute from "./ProtectedRoute";
 import ErrorBoundary from "../components/ErrorBoundary";
 import Loader from "../components/Loader";
+import HelpButton from "../components/HelpButton";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/Home.jsx"));
@@ -234,6 +235,8 @@ export default function App() {
             <AppRoutes />
             {/* Panel flotante global - visible en toda la app */}
             <GlobalFloatingGuide />
+            {/* Botón de ayuda global - visible en todas las vistas */}
+            <HelpButton />
           </AppProviders>
         </GuideProvider>
       </Router>

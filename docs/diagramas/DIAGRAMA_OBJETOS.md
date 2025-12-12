@@ -25,27 +25,27 @@ Estado del sistema cuando un cliente (María García) tiene un pedido en estado 
 ```mermaid
 graph TB
     subgraph "Instancias en Runtime - Pedido #1234"
-        usuario1[""👤 usuario1: Usuario<br/>───────────────<br/>id: 42<br/>email: 'maria@email.com'<br/>nombre: 'María García'<br/>rol: 'cliente'<br/>estado: true""]
+        usuario1["👤 usuario1: Usuario<br/>───────────────<br/>id: 42<br/>email: 'maria@email.com'<br/>nombre: 'María García'<br/>rol: 'cliente'<br/>estado: true"]
         
-        tienda1[""🏪 tienda1: Tienda<br/>───────────────<br/>id: 1<br/>id_administrador: 1<br/>nombre: 'Tienda Centro'<br/>direccion: 'Calle 10 #5-20'<br/>activa: true""]
+        tienda1["🏪 tienda1: Tienda<br/>───────────────<br/>id: 1<br/>id_administrador: 1<br/>nombre: 'Tienda Centro'<br/>direccion: 'Calle 10 #5-20'<br/>activa: true"]
         
-        pedido1[""📦 pedido1: Pedido<br/>───────────────<br/>id: 1234<br/>id_cliente: 42<br/>id_tienda: 1<br/>estado: 'preparando'<br/>total: 45000.00<br/>fecha_creacion: '2025-12-04 10:30'<br/>notas: 'Entregar antes 5pm'""]
+        pedido1["📦 pedido1: Pedido<br/>───────────────<br/>id: 1234<br/>id_cliente: 42<br/>id_tienda: 1<br/>estado: 'preparando'<br/>total: 45000.00<br/>fecha_creacion: '2025-12-04 10:30'<br/>notas: 'Entregar antes 5pm'"]
         
-        detalle1[""📋 detalle1: DetallePedido<br/>───────────────<br/>id: 5001<br/>id_pedido: 1234<br/>id_producto: 101<br/>cantidad: 2<br/>precio_unitario: 12000.00<br/>subtotal: 24000.00""]
+        detalle1["📋 detalle1: DetallePedido<br/>───────────────<br/>id: 5001<br/>id_pedido: 1234<br/>id_producto: 101<br/>cantidad: 2<br/>precio_unitario: 12000.00<br/>subtotal: 24000.00"]
         
-        detalle2[""📋 detalle2: DetallePedido<br/>───────────────<br/>id: 5002<br/>id_pedido: 1234<br/>id_producto: 205<br/>cantidad: 3<br/>precio_unitario: 7000.00<br/>subtotal: 21000.00""]
+        detalle2["📋 detalle2: DetallePedido<br/>───────────────<br/>id: 5002<br/>id_pedido: 1234<br/>id_producto: 205<br/>cantidad: 3<br/>precio_unitario: 7000.00<br/>subtotal: 21000.00"]
         
-        producto1[""📦 producto1: Producto<br/>───────────────<br/>id: 101<br/>id_tienda: 1<br/>id_proveedor: 15<br/>nombre: 'Arroz Diana 500g'<br/>precio: 12000.00<br/>stock: 148<br/>categoria: 'alimentos'""]
+        producto1["📦 producto1: Producto<br/>───────────────<br/>id: 101<br/>id_tienda: 1<br/>id_proveedor: 15<br/>nombre: 'Arroz Diana 500g'<br/>precio: 12000.00<br/>stock: 148<br/>categoria: 'alimentos'"]
         
-        producto2[""📦 producto2: Producto<br/>───────────────<br/>id: 205<br/>id_tienda: 1<br/>id_proveedor: 15<br/>nombre: 'Aceite Girasol 1L'<br/>precio: 7000.00<br/>stock: 67<br/>categoria: 'alimentos'""]
+        producto2["📦 producto2: Producto<br/>───────────────<br/>id: 205<br/>id_tienda: 1<br/>id_proveedor: 15<br/>nombre: 'Aceite Girasol 1L'<br/>precio: 7000.00<br/>stock: 67<br/>categoria: 'alimentos'"]
         
-        proveedor1[""👨‍💼 proveedor1: Usuario<br/>───────────────<br/>id: 15<br/>email: 'juan@proveedora.com'<br/>nombre: 'Juan Pérez'<br/>rol: 'proveedor'<br/>estado: true""]
+        proveedor1["👨‍💼 proveedor1: Usuario<br/>───────────────<br/>id: 15<br/>email: 'juan@proveedora.com'<br/>nombre: 'Juan Pérez'<br/>rol: 'proveedor'<br/>estado: true"]
         
-        pago1[""💳 pago1: Pago<br/>───────────────<br/>id: 789<br/>id_usuario: 42<br/>id_pedido: 1234<br/>id_estado_pago: 2<br/>id_metodo_pago: 1<br/>monto: 45000.00<br/>fecha_creacion: '2025-12-04 10:25'""]
+        pago1["💳 pago1: Pago<br/>───────────────<br/>id: 789<br/>id_usuario: 42<br/>id_pedido: 1234<br/>id_estado_pago: 2<br/>id_metodo_pago: 1<br/>monto: 45000.00<br/>fecha_creacion: '2025-12-04 10:25'"]
         
-        metodo1[""💰 metodo1: MetodoPago<br/>───────────────<br/>id: 1<br/>nombre: 'Tarjeta Crédito'<br/>activo: true""]
+        metodo1["💰 metodo1: MetodoPago<br/>───────────────<br/>id: 1<br/>nombre: 'Tarjeta Crédito'<br/>activo: true"]
         
-        estado1[""✅ estado1: EstadoPago<br/>───────────────<br/>id: 2<br/>nombre: 'Aprobado'""]
+        estado1["✅ estado1: EstadoPago<br/>───────────────<br/>id: 2<br/>nombre: 'Aprobado'"]
     end
     
     pedido1 -->|id_cliente = 42| usuario1
@@ -104,19 +104,19 @@ Configuración de recarga automática para un producto con stock bajo.
 ```mermaid
 graph TB
     subgraph "Sistema de Stock - Producto con Alerta"
-        producto_leche[""📦 producto_leche: Producto<br/>───────────────<br/>id: 301<br/>nombre: 'Leche Entera 1L'<br/>precio: 4500.00<br/>stock: 8 🔴<br/>es_basico: true<br/>activo: true""]
+        producto_leche["📦 producto_leche: Producto<br/>───────────────<br/>id: 301<br/>nombre: 'Leche Entera 1L'<br/>precio: 4500.00<br/>stock: 8 🔴<br/>es_basico: true<br/>activo: true"]
         
-        config_leche[""⚙️ config_leche: StockConfig<br/>───────────────<br/>id: 45<br/>stock_minimo: 10<br/>cantidad_recarga: 50<br/>recarga_automatica_activa: true<br/>ultima_recarga: '2025-12-03 08:00'<br/>total_recargas: 12""]
+        config_leche["⚙️ config_leche: StockConfig<br/>───────────────<br/>id: 45<br/>stock_minimo: 10<br/>cantidad_recarga: 50<br/>recarga_automatica_activa: true<br/>ultima_recarga: '2025-12-03 08:00'<br/>total_recargas: 12"]
         
-        historial1[""📝 historial1: HistorialRecarga<br/>───────────────<br/>id: 890<br/>cantidad: 50<br/>stock_anterior: 3<br/>stock_nuevo: 53<br/>tipo: 'automatica'<br/>fecha_creacion: '2025-12-03 08:00'""]
+        historial1["📝 historial1: HistorialRecarga<br/>───────────────<br/>id: 890<br/>cantidad: 50<br/>stock_anterior: 3<br/>stock_nuevo: 53<br/>tipo: 'automatica'<br/>fecha_creacion: '2025-12-03 08:00'"]
         
-        historial2[""📝 historial2: HistorialRecarga<br/>───────────────<br/>id: 891<br/>cantidad: 10<br/>stock_anterior: 53<br/>stock_nuevo: 63<br/>tipo: 'manual'<br/>fecha_creacion: '2025-12-03 14:30'""]
+        historial2["📝 historial2: HistorialRecarga<br/>───────────────<br/>id: 891<br/>cantidad: 10<br/>stock_anterior: 53<br/>stock_nuevo: 63<br/>tipo: 'manual'<br/>fecha_creacion: '2025-12-03 14:30'"]
         
-        proveedor_lacteos[""👨‍💼 proveedor_lacteos: Usuario<br/>───────────────<br/>id: 18<br/>email: 'ana@lacteos.com'<br/>nombre: 'Ana Rodríguez'<br/>rol: 'proveedor'""]
+        proveedor_lacteos["👨‍💼 proveedor_lacteos: Usuario<br/>───────────────<br/>id: 18<br/>email: 'ana@lacteos.com'<br/>nombre: 'Ana Rodríguez'<br/>rol: 'proveedor'"]
         
-        notif1[""📧 notif1: Notificacion<br/>───────────────<br/>id: 2345<br/>mensaje: 'Stock bajo: Leche...'<br/>leida: true<br/>fecha_lectura: '2025-12-03 08:05'""]
+        notif1["📧 notif1: Notificacion<br/>───────────────<br/>id: 2345<br/>mensaje: 'Stock bajo: Leche...'<br/>leida: true<br/>fecha_lectura: '2025-12-03 08:05'"]
         
-        tipo_notif[""🔔 tipo_notif: TipoNotificacion<br/>───────────────<br/>id: 3<br/>nombre: 'Stock Bajo'""]
+        tipo_notif["🔔 tipo_notif: TipoNotificacion<br/>───────────────<br/>id: 3<br/>nombre: 'Stock Bajo'"]
     end
     
     producto_leche -->|config_stock| config_leche
@@ -167,19 +167,19 @@ Usuario administrador con historial de contraseñas y tiendas administradas.
 ```mermaid
 graph TB
     subgraph "Usuario Admin con Context"
-        admin1[""👨‍💼 admin1: Usuario<br/>───────────────<br/>id: 1<br/>email: 'admin@prexcol.com'<br/>nombre: 'Carlos Admin'<br/>rol: 'admin'<br/>is_staff: true<br/>is_superuser: true<br/>self_deactivated: false<br/>admin_suspended: false<br/>ultimo_ingreso: '2025-12-04 13:00'""]
+        admin1["👨‍💼 admin1: Usuario<br/>───────────────<br/>id: 1<br/>email: 'admin@prexcol.com'<br/>nombre: 'Carlos Admin'<br/>rol: 'admin'<br/>is_staff: true<br/>is_superuser: true<br/>self_deactivated: false<br/>admin_suspended: false<br/>ultimo_ingreso: '2025-12-04 13:00'"]
         
-        pass_hist1[""🔐 pass_hist1: PasswordHistory<br/>───────────────<br/>id: 101<br/>password_hash: 'pbkdf2_sha256$...'<br/>fecha_creacion: '2025-10-01'""]
+        pass_hist1["🔐 pass_hist1: PasswordHistory<br/>───────────────<br/>id: 101<br/>password_hash: 'pbkdf2_sha256$...'<br/>fecha_creacion: '2025-10-01'"]
         
-        pass_hist2[""🔐 pass_hist2: PasswordHistory<br/>───────────────<br/>id: 102<br/>password_hash: 'pbkdf2_sha256$...'<br/>fecha_creacion: '2025-11-15'""]
+        pass_hist2["🔐 pass_hist2: PasswordHistory<br/>───────────────<br/>id: 102<br/>password_hash: 'pbkdf2_sha256$...'<br/>fecha_creacion: '2025-11-15'"]
         
-        pass_hist3[""🔐 pass_hist3: PasswordHistory<br/>───────────────<br/>id: 103<br/>password_hash: 'pbkdf2_sha256$...'<br/>fecha_creacion: '2025-12-01'<br/>(actual)""]
+        pass_hist3["🔐 pass_hist3: PasswordHistory<br/>───────────────<br/>id: 103<br/>password_hash: 'pbkdf2_sha256$...'<br/>fecha_creacion: '2025-12-01'<br/>(actual)"]
         
-        tienda_centro[""🏪 tienda_centro: Tienda<br/>───────────────<br/>id: 1<br/>nombre: 'Tienda Centro'<br/>activa: true""]
+        tienda_centro["🏪 tienda_centro: Tienda<br/>───────────────<br/>id: 1<br/>nombre: 'Tienda Centro'<br/>activa: true"]
         
-        tienda_norte[""🏪 tienda_norte: Tienda<br/>───────────────<br/>id: 2<br/>nombre: 'Tienda Norte'<br/>activa: true""]
+        tienda_norte["🏪 tienda_norte: Tienda<br/>───────────────<br/>id: 2<br/>nombre: 'Tienda Norte'<br/>activa: true"]
         
-        tienda_sur[""🏪 tienda_sur: Tienda<br/>───────────────<br/>id: 3<br/>nombre: 'Tienda Sur'<br/>activa: false""]
+        tienda_sur["🏪 tienda_sur: Tienda<br/>───────────────<br/>id: 3<br/>nombre: 'Tienda Sur'<br/>activa: false"]
     end
     
     admin1 -->|password_history| pass_hist1
@@ -230,19 +230,19 @@ Flujo completo de un pago aprobado con transacción del gateway.
 ```mermaid
 graph TB
     subgraph "Pago Exitoso con Transacción"
-        cliente2[""👤 cliente2: Usuario<br/>───────────────<br/>id: 55<br/>email: 'pedro@email.com'<br/>nombre: 'Pedro López'<br/>rol: 'cliente'""]
+        cliente2["👤 cliente2: Usuario<br/>───────────────<br/>id: 55<br/>email: 'pedro@email.com'<br/>nombre: 'Pedro López'<br/>rol: 'cliente'"]
         
-        pedido2[""📦 pedido2: Pedido<br/>───────────────<br/>id: 1235<br/>estado: 'pendiente'<br/>total: 87500.00""]
+        pedido2["📦 pedido2: Pedido<br/>───────────────<br/>id: 1235<br/>estado: 'pendiente'<br/>total: 87500.00"]
         
-        pago2[""💳 pago2: Pago<br/>───────────────<br/>id: 790<br/>monto: 87500.00<br/>fecha_creacion: '2025-12-04 11:15'<br/>fecha_actualizacion: '2025-12-04 11:16'""]
+        pago2["💳 pago2: Pago<br/>───────────────<br/>id: 790<br/>monto: 87500.00<br/>fecha_creacion: '2025-12-04 11:15'<br/>fecha_actualizacion: '2025-12-04 11:16'"]
         
-        transaccion1[""🔄 transaccion1: Transaccion<br/>───────────────<br/>id: 4567<br/>referencia_externa: 'TRX-PAY-789456'<br/>monto: 87500.00<br/>estado: 'approved'<br/>respuesta_gateway: {'...'}""]
+        transaccion1["🔄 transaccion1: Transaccion<br/>───────────────<br/>id: 4567<br/>referencia_externa: 'TRX-PAY-789456'<br/>monto: 87500.00<br/>estado: 'approved'<br/>respuesta_gateway: {'...'}"]
         
-        metodo_tarjeta[""💰 metodo_tarjeta: MetodoPago<br/>───────────────<br/>id: 1<br/>nombre: 'Tarjeta Crédito'<br/>activo: true""]
+        metodo_tarjeta["💰 metodo_tarjeta: MetodoPago<br/>───────────────<br/>id: 1<br/>nombre: 'Tarjeta Crédito'<br/>activo: true"]
         
-        estado_aprobado[""✅ estado_aprobado: EstadoPago<br/>───────────────<br/>id: 2<br/>nombre: 'Aprobado'<br/>descripcion: 'Pago autorizado'""]
+        estado_aprobado["✅ estado_aprobado: EstadoPago<br/>───────────────<br/>id: 2<br/>nombre: 'Aprobado'<br/>descripcion: 'Pago autorizado'"]
         
-        venta1[""💰 venta1: Venta<br/>───────────────<br/>id: 456<br/>total: 87500.00<br/>cantidad_items: 4<br/>fecha_venta: '2025-12-04 16:30'""]
+        venta1["💰 venta1: Venta<br/>───────────────<br/>id: 456<br/>total: 87500.00<br/>cantidad_items: 4<br/>fecha_venta: '2025-12-04 16:30'"]
     end
     
     pago2 -->|usuario| cliente2
@@ -301,23 +301,23 @@ Notificación enviada a múltiples usuarios por un evento (pedido creado).
 ```mermaid
 graph TB
     subgraph "Notificaciones por Pedido Creado"
-        pedido_evento[""📦 pedido_nuevo: Pedido<br/>───────────────<br/>id: 1236<br/>estado: 'pendiente'<br/>fecha_creacion: '2025-12-04 14:00'""]
+        pedido_evento["📦 pedido_nuevo: Pedido<br/>───────────────<br/>id: 1236<br/>estado: 'pendiente'<br/>fecha_creacion: '2025-12-04 14:00'"]
         
-        notif_cliente[""📧 notif_cliente: Notificacion<br/>───────────────<br/>id: 3001<br/>mensaje: 'Tu pedido #1236 ha sido...'<br/>destino: 'cliente@email.com'<br/>leida: true<br/>fecha_lectura: '2025-12-04 14:05'""]
+        notif_cliente["📧 notif_cliente: Notificacion<br/>───────────────<br/>id: 3001<br/>mensaje: 'Tu pedido #1236 ha sido...'<br/>destino: 'cliente@email.com'<br/>leida: true<br/>fecha_lectura: '2025-12-04 14:05'"]
         
-        notif_logistica[""📧 notif_logistica: Notificacion<br/>───────────────<br/>id: 3002<br/>mensaje: 'Nuevo pedido #1236 para...'<br/>destino: 'logistica@prexcol.com'<br/>leida: false<br/>fecha_lectura: null""]
+        notif_logistica["📧 notif_logistica: Notificacion<br/>───────────────<br/>id: 3002<br/>mensaje: 'Nuevo pedido #1236 para...'<br/>destino: 'logistica@prexcol.com'<br/>leida: false<br/>fecha_lectura: null"]
         
-        notif_proveedor[""📧 notif_proveedor: Notificacion<br/>───────────────<br/>id: 3003<br/>mensaje: 'Pedido #1236 incluye tus...'<br/>destino: 'proveedor@proveedora.com'<br/>leida: true<br/>fecha_lectura: '2025-12-04 14:30'""]
+        notif_proveedor["📧 notif_proveedor: Notificacion<br/>───────────────<br/>id: 3003<br/>mensaje: 'Pedido #1236 incluye tus...'<br/>destino: 'proveedor@proveedora.com'<br/>leida: true<br/>fecha_lectura: '2025-12-04 14:30'"]
         
-        tipo_pedido[""🔔 tipo_pedido: TipoNotificacion<br/>───────────────<br/>id: 1<br/>nombre: 'Nuevo Pedido'""]
+        tipo_pedido["🔔 tipo_pedido: TipoNotificacion<br/>───────────────<br/>id: 1<br/>nombre: 'Nuevo Pedido'"]
         
-        estado_enviada[""✅ estado_enviada: EstadoNotificacion<br/>───────────────<br/>id: 2<br/>nombre: 'Enviada'""]
+        estado_enviada["✅ estado_enviada: EstadoNotificacion<br/>───────────────<br/>id: 2<br/>nombre: 'Enviada'"]
         
-        cliente_dest[""👤 cliente_dest: Usuario<br/>───────────────<br/>id: 60<br/>rol: 'cliente'""]
+        cliente_dest["👤 cliente_dest: Usuario<br/>───────────────<br/>id: 60<br/>rol: 'cliente'"]
         
-        logistica_dest[""👤 logistica_dest: Usuario<br/>───────────────<br/>id: 8<br/>rol: 'logistica'""]
+        logistica_dest["👤 logistica_dest: Usuario<br/>───────────────<br/>id: 8<br/>rol: 'logistica'"]
         
-        proveedor_dest[""👤 proveedor_dest: Usuario<br/>───────────────<br/>id: 15<br/>rol: 'proveedor'""]
+        proveedor_dest["👤 proveedor_dest: Usuario<br/>───────────────<br/>id: 15<br/>rol: 'proveedor'"]
     end
     
     notif_cliente -->|usuario| cliente_dest

@@ -23,13 +23,13 @@
 ```mermaid
 graph LR
     Cliente(("👤<br/>:Cliente"))
-    UI[""📱<br/>:Frontend""]
-    API[""🔌<br/>:API Controller""]
-    OrderService[""⚙️<br/>:OrderService""]
-    StockService[""📦<br/>:StockService""]
-    PaymentService[""💳<br/>:PaymentService""]
+    UI["📱<br/>:Frontend"]
+    API["🔌<br/>:API Controller"]
+    OrderService["⚙️<br/>:OrderService"]
+    StockService["📦<br/>:StockService"]
+    PaymentService["💳<br/>:PaymentService"]
     DB["("💾<br/>:Database")"]
-    NotifService[""📧<br/>:NotifService""]
+    NotifService["📧<br/>:NotifService"]
 
     Cliente -->|"1: seleccionaProductos()"| UI
     UI -->|"2: crearPedido(items)"| API
@@ -96,13 +96,13 @@ graph LR
 ```mermaid
 graph TB
     Cliente(("👤<br/>:Cliente"))
-    UI[""📱<br/>:Frontend""]
-    PaymentCtrl[""🔌<br/>:PaymentController""]
-    PaymentSvc[""⚙️<br/>:PaymentService""]
-    Gateway[""🌐<br/>:PaymentGateway""]
+    UI["📱<br/>:Frontend"]
+    PaymentCtrl["🔌<br/>:PaymentController"]
+    PaymentSvc["⚙️<br/>:PaymentService"]
+    Gateway["🌐<br/>:PaymentGateway"]
     DB["("💾<br/>:Database")"]
-    OrderSvc[""📦<br/>:OrderService""]
-    NotifSvc[""📧<br/>:NotifService""]
+    OrderSvc["📦<br/>:OrderService"]
+    NotifSvc["📧<br/>:NotifService"]
 
     Cliente -->|"1: ingresaDatosPago()"| UI
     UI -->|"2: procesarPago(datos)"| PaymentCtrl
@@ -152,12 +152,12 @@ graph TB
 
 ```mermaid
 graph TB
-    Beat[""⏰<br/>:CeleryBeat""]
-    Worker[""⚙️<br/>:CeleryWorker""]
-    StockMonitor[""🔍<br/>:StockMonitor""]
+    Beat["⏰<br/>:CeleryBeat"]
+    Worker["⚙️<br/>:CeleryWorker"]
+    StockMonitor["🔍<br/>:StockMonitor"]
     DB["("💾<br/>:Database")"]
-    StockSvc[""📦<br/>:StockService""]
-    NotifSvc[""📧<br/>:NotifService""]
+    StockSvc["📦<br/>:StockService"]
+    NotifSvc["📧<br/>:NotifService"]
     Proveedor(("👨‍💼<br/>:Proveedor"))
 
     Beat -->|"1: [cada 1h] trigger()"| Worker
@@ -213,12 +213,12 @@ def necesitaRecarga(producto):
 ```mermaid
 graph LR
     Logistica(("🚚<br/>:Logistica"))
-    UI[""📱<br/>:Frontend""]
-    OrderCtrl[""🔌<br/>:OrderController""]
-    OrderSvc[""⚙️<br/>:OrderService""]
+    UI["📱<br/>:Frontend"]
+    OrderCtrl["🔌<br/>:OrderController"]
+    OrderSvc["⚙️<br/>:OrderService"]
     DB["("💾<br/>:Database")"]
-    VentaSvc[""💰<br/>:VentaService""]
-    NotifSvc[""📧<br/>:NotifService""]
+    VentaSvc["💰<br/>:VentaService"]
+    NotifSvc["📧<br/>:NotifService"]
     Cliente(("👤<br/>:Cliente"))
 
     Logistica -->|"1: seleccionaPedido(id)"| UI
@@ -274,11 +274,11 @@ graph LR
 ```mermaid
 graph TB
     Usuario(("👤<br/>:Usuario"))
-    UI[""📱<br/>:Frontend""]
-    AuthCtrl[""🔌<br/>:AuthController""]
-    AuthSvc[""⚙️<br/>:AuthService""]
-    TokenGen[""🔑<br/>:JWTGenerator""]
-    PassValidator[""🔒<br/>:PasswordValidator""]
+    UI["📱<br/>:Frontend"]
+    AuthCtrl["🔌<br/>:AuthController"]
+    AuthSvc["⚙️<br/>:AuthService"]
+    TokenGen["🔑<br/>:JWTGenerator"]
+    PassValidator["🔒<br/>:PasswordValidator"]
     DB["("💾<br/>:Database")"]
 
     Usuario -->|"1: ingresaCredenciales()"| UI

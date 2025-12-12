@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 
-export default function AdminProductsTab({ productos, loading, onDelete, onUpdate, onCreate, tiendas, proveedores }) {
+export default function AdminProductsTab({ productos, loading, onDelete, onUpdate, onCreate, tiendas, proveedores, categorias }) {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
-    nombre: "", descripcion: "", precio: "", stock: "", tienda: "", es_basico: true, categoria: "general", proveedor: ""
+    nombre: "", descripcion: "", precio: "", stock: "", tienda: "", es_basico: true, categoria: "", proveedor: ""
   });
   const [searchTerm, setSearchTerm] = useState("");
 
   const resetForm = () => {
     setFormData({
-        nombre: "", descripcion: "", precio: "", stock: "", tienda: "", es_basico: true, categoria: "general", proveedor: ""
+        nombre: "", descripcion: "", precio: "", stock: "", tienda: "", es_basico: true, categoria: "", proveedor: ""
     });
     setEditingId(null);
     setShowForm(false);
@@ -34,7 +34,7 @@ export default function AdminProductsTab({ productos, loading, onDelete, onUpdat
           stock: producto.stock || "",
           tienda: producto.tienda || "",
           es_basico: producto.es_basico ?? true,
-          categoria: producto.categoria || "general",
+          categoria: producto.categoria || "",
           proveedor: producto.proveedor || ""
       });
       setEditingId(producto.id);
@@ -44,7 +44,8 @@ export default function AdminProductsTab({ productos, loading, onDelete, onUpdat
   const productosFiltrados = (productos || []).filter(p => {
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      return p.nombre.toLowerCase().includes(term) || p.descripcion.toLowerCase().includes(term);
+      return (p.nombre && p.nombre.toLowerCase().includes(term)) || 
+             (p.descripcion && p.descripcion.toLowerCase().includes(term));
     }
     return true;
   });
@@ -67,15 +68,24 @@ export default function AdminProductsTab({ productos, loading, onDelete, onUpdat
             <input type="text" placeholder="Nombre" value={formData.nombre} onChange={e => setFormData({...formData, nombre: e.target.value})} required />
             <input type="number" placeholder="Precio" value={formData.precio} onChange={e => setFormData({...formData, precio: e.target.value})} required />
             <input type="number" placeholder="Stock" value={formData.stock} onChange={e => setFormData({...formData, stock: e.target.value})} required />
+            
             <select value={formData.tienda} onChange={e => setFormData({...formData, tienda: e.target.value})} required>
               <option value="">Seleccionar Tienda</option>
               {(tiendas || []).map(t => <option key={t.id} value={t.id}>{t.nombre}</option>)}
             </select>
+            
+            <select value={formData.categoria} onChange={e => setFormData({...formData, categoria: e.target.value})} required>
+              <option value="">Seleccionar Categoría</option>
+              {(categorias || []).map(c => <option key={c.id} value={c.nombre}>{c.nombre}</option>)}
+            </select>
+
             <select value={formData.proveedor} onChange={e => setFormData({...formData, proveedor: e.target.value})}>
               <option value="">Seleccionar Proveedor (Opcional)</option>
               {(proveedores || []).map(p => <option key={p.id} value={p.id}>{p.nombre}</option>)}
             </select>
+            
             <textarea placeholder="Descripción" value={formData.descripcion} onChange={e => setFormData({...formData, descripcion: e.target.value})} />
+            
             <div className="checkbox-group">
               <label>
                 <input type="checkbox" checked={formData.es_basico} onChange={e => setFormData({...formData, es_basico: e.target.checked})} />
@@ -103,6 +113,7 @@ export default function AdminProductsTab({ productos, loading, onDelete, onUpdat
             <tr>
               <th>Producto</th>
               <th>Tienda</th>
+              <th>Categoría</th>
               <th>Precio</th>
               <th>Stock</th>
               <th>Tipo</th>
@@ -122,6 +133,7 @@ export default function AdminProductsTab({ productos, loading, onDelete, onUpdat
                   </div>
                 </td>
                 <td>{(tiendas || []).find(t => t.id === producto.tienda)?.nombre || producto.tienda}</td>
+                <td>{producto.categoria || 'N/A'}</td>
                 <td><strong style={{color: '#2d3748'}}>${Number(producto.precio).toLocaleString()}</strong></td>
                 <td>
                   <span className={`badge ${producto.stock < 10 ? 'danger' : 'success'}`}>
