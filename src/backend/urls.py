@@ -38,11 +38,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', api_root, name='api-root'),
     
-    # Documentation (Sphinx)
+    # Documentation (Sphinx) - original API-prefixed route
     re_path(r'^api/docs/(?P<path>.*)$', serve, {
         'document_root': DOCS_ROOT,
         'show_indexes': True,
     }, name='documentation'),
+    # Documentation (Sphinx) - new route without API prefix for direct access
+    re_path(r'^docs/(?P<path>.*)$', serve, {
+        'document_root': DOCS_ROOT,
+        'show_indexes': True,
+    }, name='documentation-root'),
     # Observability & Maps
     path('metrics/', metrics_view, name='metrics'),
     path('maps/logistica/', logistics_map_data, name='logistics_map'),

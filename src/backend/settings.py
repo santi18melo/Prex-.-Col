@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables
+# Load environment variables
 env_path = Path(__file__).resolve().parent / '.env'
 load_dotenv(dotenv_path=env_path)
 
@@ -29,11 +30,15 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,testserver").spl
 SECURE_HSTS_SECONDS = 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 SECURE_HSTS_PRELOAD = False
-SECURE_SSL_REDIRECT = False
-SESSION_COOKIE_SECURE = False
-SECURE_SSL_REDIRECT = False
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+# SSL and cookie security are configured based on DEBUG flag
+if DEBUG:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+else:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 SECURE_REFERRER_POLICY = 'same-origin' # Security: Referrer Policy
 
 INSTALLED_APPS = [
@@ -241,7 +246,7 @@ CORS_ALLOW_HEADERS = [
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
-if EMAIL_HOST_USER and EMAIL_HOST_USER != "tu-email@gmail.com" and EMAIL_HOST_PASSWORD and EMAIL_HOST_PASSWORD != "tu-app-password":
+if EMAIL_HOST_USER and EMAIL_HOST_USER != "melosanchezsantiago@gmail.com" and EMAIL_HOST_PASSWORD and EMAIL_HOST_PASSWORD != "tu-app-password":
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
     EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
@@ -250,7 +255,7 @@ if EMAIL_HOST_USER and EMAIL_HOST_USER != "tu-email@gmail.com" and EMAIL_HOST_PA
 else:
     # Usar console backend para desarrollo (imprime emails en consola)
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-    DEFAULT_FROM_EMAIL = "noreply@prexcol.local"
+    DEFAULT_FROM_EMAIL = "melosanchezsantiago@gmail.com"
 
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5175")
 
